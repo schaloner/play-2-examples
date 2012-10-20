@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javax.servlet_javax.servlet-api_3.0.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/javax.servlet/javax.servlet-api/3.0.1/jars/javax.servlet-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

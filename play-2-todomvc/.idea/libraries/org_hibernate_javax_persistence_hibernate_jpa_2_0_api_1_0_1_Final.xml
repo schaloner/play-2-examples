@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.hibernate.javax.persistence_hibernate-jpa-2.0-api_1.0.1.Final">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/org.hibernate.javax.persistence/hibernate-jpa-2.0-api/1.0.1.Final/jars/hibernate-jpa-2.0-api.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="com.google.code.findbugs_jsr305_1.3.9">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/com.google.code.findbugs/jsr305/1.3.9/jars/jsr305.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

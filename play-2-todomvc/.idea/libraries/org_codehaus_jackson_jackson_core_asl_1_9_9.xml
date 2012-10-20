@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.codehaus.jackson_jackson-core-asl_1.9.9">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/org.codehaus.jackson/jackson-core-asl/1.9.9/jars/jackson-core-asl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

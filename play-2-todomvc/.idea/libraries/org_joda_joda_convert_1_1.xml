@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.joda_joda-convert_1.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/org.joda/joda-convert/1.1/jars/joda-convert.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

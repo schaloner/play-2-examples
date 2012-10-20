@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="joda-time_joda-time_2.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/joda-time/joda-time/2.0/jars/joda-time.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

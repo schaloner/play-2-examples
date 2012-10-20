@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="commons-logging_commons-logging_1.1.1_test">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/commons-logging/commons-logging/1.1.1/jars/commons-logging.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

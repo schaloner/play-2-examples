@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javax.transaction_jta_1.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/javax.transaction/jta/1.1/jars/jta.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

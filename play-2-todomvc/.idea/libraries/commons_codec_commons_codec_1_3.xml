@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="commons-codec_commons-codec_1.3">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/development/play/play-2.0.3/repository/local/commons-codec/commons-codec/1.3/jars/commons-codec.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
