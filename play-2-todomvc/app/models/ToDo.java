@@ -35,11 +35,14 @@ public class ToDo extends Model
 
     public Boolean completed;
 
-    @Column(name = "ITEM_ORDER")
+    @Column(name = "ITEM_ORDER", nullable = true)
     public Long order;
 
+    @Column(nullable = true)
+    public Long created;
+
     private static final Finder<Long, ToDo> FIND = new Finder<Long, ToDo>(Long.class,
-                                                                                      ToDo.class);
+                                                                 ToDo.class);
 
     public static ToDo findById(Long id)
     {

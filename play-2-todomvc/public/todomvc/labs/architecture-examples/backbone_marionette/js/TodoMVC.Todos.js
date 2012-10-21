@@ -4,9 +4,10 @@ TodoMVC.module("Todos", function(Todos, App, Backbone, Marionette, $, _){
   // ----------
   
   Todos.Todo = Backbone.Model.extend({
-    localStorage: new Backbone.LocalStorage('todos-backbone'),
+      urlRoot: '/api/todo',
 
     defaults: {
+      id:null,
       title     : '',
       completed : false,
       created   : 0
@@ -31,7 +32,7 @@ TodoMVC.module("Todos", function(Todos, App, Backbone, Marionette, $, _){
   Todos.TodoList = Backbone.Collection.extend({
     model: Todos.Todo,
 
-    localStorage: new Backbone.LocalStorage('todos-backbone'),
+    url: '/api/todo',
 
     getCompleted: function() {
       return this.filter(this._isCompleted);

@@ -21,15 +21,10 @@ import play.mvc.Result;
 /**
  * @author Steve Chaloner (steve@objectify.be)
  */
-public class Shortcuts extends Controller
+public class LabDependencyShortcuts extends Controller
 {
-    public static Result backbone()
+    public static Result backboneMarionetteRequire()
     {
-        return redirect(routes.Assets.at("/todomvc/architecture-examples/backbone/index.html"));
-    }
-
-    public static Result backboneRequire()
-    {
-        return redirect(routes.Assets.at("/todomvc/dependency-examples/backbone_require/index.html"));
+        return redirect(routes.Assets.at("/todomvc/labs/dependency-examples/backbone_marionette_require/index-dev.html"));
     }
 }

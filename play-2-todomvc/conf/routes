@@ -2,14 +2,23 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /                           controllers.Application.index()
-GET     /api/todo                   controllers.Application.getAll()
-POST    /api/todo                   controllers.Application.create()
-PUT     /api/todo/:id               controllers.Application.update(id: Long)
-DELETE  /api/todo/:id               controllers.Application.delete(id: Long)
+GET     /                                   controllers.Application.index()
+GET     /api/todo                           controllers.Application.getAll()
+POST    /api/todo                           controllers.Application.create()
+PUT     /api/todo/:id                       controllers.Application.update(id: Long)
+DELETE  /api/todo/:id                       controllers.Application.delete(id: Long)
 
-GET     /arch/backbone              controllers.Shortcuts.backbone()
-GET     /dep/backbone               controllers.Shortcuts.backboneRequire()
+# Architecture examples
+GET     /arch/backbone                      controllers.ArchitectureShortcuts.backbone()
+
+# Dependency examples
+GET     /dep/backbone-require               controllers.DependencyShortcuts.backboneRequire()
+
+# Lab architecture examples
+GET     /lab/arch/backbone-marionette       controllers.LabArchitectureShortcuts.backboneMarionette()
+
+# Lab dependency examples
+GET     /dep/backbone-marionette-require    controllers.LabDependencyShortcuts.backboneMarionetteRequire()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                       controllers.Assets.at(path="/public", file)

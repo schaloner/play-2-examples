@@ -1,11 +1,11 @@
-define(['backbone','models/Todo','lib/backbone-localStorage'],function(Backbone,Todo) {
+define(['backbone','models/Todo'],function(Backbone,Todo) {
   'use strict';
 
   function isCompleted(todo) { return todo.get('completed'); }
 
   return Backbone.Collection.extend({
     model: Todo,
-    localStorage: new Backbone.LocalStorage('todos-backbone'),
+    url: '/api/todo',
 
     getCompleted: function() {
       return this.filter(isCompleted);

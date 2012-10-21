@@ -3,8 +3,9 @@ define(['backbone','lib/backbone-localStorage'],function(Backbone){
   'use strict';
 
   return Backbone.Model.extend({
-    localStorage: new Backbone.LocalStorage('todos-backbone'),
+    urlRoot: '/api/todo',
     defaults: {
+      id:       null,
       title     : '',
       completed : false,
       created   : 0
