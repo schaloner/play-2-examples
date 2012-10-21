@@ -23,6 +23,7 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.index;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +43,33 @@ public class Application extends Controller
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result create()
+    public static Result saveAll()
+    {
+        JsonNode json = request().body().asJson();
+        List<ToDo> saved = new ArrayList<ToDo>();
+
+        if (json != null)
+        {
+            for (JsonNode node: json)
+            {
+                ToDo incoming = Json.fromJson(node, ToDo.class);
+                if (incoming.id == null)
+                {
+                    incoming.save();
+                }
+                else
+                {
+                    incoming.update();
+                }
+                saved.add(incoming);
+            }
+        }
+
+        return ok(Json.toJson(saved));
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result save()
     {
         JsonNode json = request().body().asJson();
         ToDo incoming = Json.fromJson(json, ToDo.class);

@@ -4,27 +4,67 @@ jQuery(function( $ ) {
 
 	var Utils = {
 		// https://gist.github.com/1308368
-		uuid: function(a,b){for(b=a='';a++<36;b+=a*51&52?(a^15?8^Math.random()*(a^20?16:4):4).toString(16):'-');return b},
 		pluralize: function( count, word ) {
 			return count === 1 ? word : word + 's';
 		},
-		store: function( namespace, data ) {
-			if ( arguments.length > 1 ) {
-				return localStorage.setItem( namespace, JSON.stringify( data ) );
-			} else {
-				var store = localStorage.getItem( namespace );
-				return ( store && JSON.parse( store ) ) || [];
-			}
-		}
-	};
+        getAll: function() {
+            return $.getJSON('/api/todo',
+                function(data) {
+                    return data;
+                });
+        },
+        save: function(toDo) {
+            return $.ajax({
+                type: 'POST',
+                url: '/api/todo',
+                data: JSON.stringify(toDo),
+                dataType: 'json',
+                contentType:'application/json'
+            });
+        },
+        update: function(toDo) {
+            return $.ajax({
+                type: 'PUT',
+                url: '/api/todo/' + toDo.id,
+                data: JSON.stringify(toDo),
+                dataType: 'json',
+                contentType:'application/json'
+            });
+        },
+        updateAll: function(toDos) {
+            var response;
+            $.each(toDos, function(index, toDo) {
+                // get the last response
+                response = Utils.update(toDo);
+            });
+            return response;
+        },
+        delete: function(data) {
+            return $.ajax({
+                type: 'DELETE',
+                url: '/api/todo/' + data.id,
+                dataType: 'json'
+            });
+        }
+    };
 
 	var App = {
 		init: function() {
 			this.ENTER_KEY = 13;
-			this.todos = Utils.store('todos-jquery');
+            var self = this;
+            Utils.getAll()
+                .success(function(data) {
+                    self.todos = data
+                })
+                .error(function()
+                {
+                    self.todos = []
+                })
+                .complete(function() {
+                    self.render();
+                });
 			this.cacheElements();
 			this.bindEvents();
-			this.render();
 		},
 		cacheElements: function() {
 			this.todoTemplate = Handlebars.compile( $('#todo-template').html() );
@@ -50,11 +90,18 @@ jQuery(function( $ ) {
 			list.on( 'click', '.destroy', this.destroy );
 		},
 		render: function() {
-			this.$todoList.html( this.todoTemplate( this.todos ) );
-			this.$main.toggle( !!this.todos.length );
-			this.$toggleAll.prop( 'checked', !this.activeTodoCount() );
-			this.renderFooter();
-			Utils.store( 'todos-jquery', this.todos );
+            var self = this;
+            Utils.getAll()
+                .success(function(data) {
+                    self.todos = data;
+                    self.$todoList.html( self.todoTemplate( self.todos ) );
+                    self.$main.toggle( !!self.todos.length );
+                    self.$toggleAll.prop( 'checked', !self.activeTodoCount() );
+                    self.renderFooter();
+                })
+                .error(function() {
+                    window.alert("Something bad happened");
+                });
 		},
 		renderFooter: function() {
 			var todoCount = this.todos.length,
@@ -73,7 +120,7 @@ jQuery(function( $ ) {
 			$.each( App.todos, function( i, val ) {
 				val.completed = isChecked;
 			});
-			App.render();
+            Utils.updateAll(App.todos).success(function() {App.render()});
 		},
 		activeTodoCount: function() {
 			var count = 0;
@@ -87,12 +134,17 @@ jQuery(function( $ ) {
 		destroyCompleted: function() {
 			var todos = App.todos,
 				l = todos.length;
+            var response;
 			while ( l-- ) {
 				if ( todos[l].completed ) {
-					todos.splice( l, 1 );
+                    response = Utils.delete(todos[l]);
 				}
 			}
-			App.render();
+            if (response) {
+            response.success(function() { App.render() });
+            } else {
+                App.render();
+            }
 		},
 		// Accepts an element from inside the ".item" div and
 		// returns the corresponding todo in the todos array
@@ -111,19 +163,19 @@ jQuery(function( $ ) {
 			if ( e.which !== App.ENTER_KEY || !val ) {
 				return;
 			}
-			App.todos.push({
-				id: Utils.uuid(),
-				title: val,
-				completed: false
-			});
+            Utils.save({
+                id: null,
+                title: val,
+                completed: false
+            });
 			$input.val('');
 			App.render();
 		},
 		toggle: function() {
 			App.getTodo( this, function( i, val ) {
 				val.completed = !val.completed;
-			});
-			App.render();
+                Utils.save(val).success(function() { App.render() });
+            });
 		},
 		edit: function() {
 			$(this).closest('li').addClass('editing').find('.edit').focus();
@@ -145,9 +197,16 @@ jQuery(function( $ ) {
 			});
 		},
 		destroy: function() {
-			App.getTodo( this, function( i ) {
-				this.todos.splice( i, 1 );
-				this.render();
+            var self = this;
+            App.getTodo( this, function( i ) {
+                Utils.delete(this.todos[i])
+                    .error(function() {
+                        window.alert('Something bad happened')
+                    })
+                    .complete(function() {
+                        App.render()
+                    }
+                );
 			});
 		}
 	};

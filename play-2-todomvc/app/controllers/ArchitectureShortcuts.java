@@ -27,4 +27,9 @@ public class ArchitectureShortcuts extends Controller
     {
         return redirect(routes.Assets.at("/todomvc/architecture-examples/backbone/index.html"));
     }
+
+    public static Result jQuery()
+    {
+        return redirect(routes.Assets.at("/todomvc/architecture-examples/jquery/index.html"));
+    }
 }
