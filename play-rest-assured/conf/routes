@@ -1,0 +1,10 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.Beers.getAll()
+GET     /:name                      controllers.Beers.get(name)
+POST    /                           controllers.Beers.create()
+PUT     /:name                      controllers.Beers.update(name)
+DELETE  /:name                      controllers.Beers.delete(name)
