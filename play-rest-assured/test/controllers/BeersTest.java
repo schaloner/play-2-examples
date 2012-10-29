@@ -57,6 +57,30 @@ public class BeersTest
             @Override
             public void run()
             {
+                String body = RestAssured.expect()
+                                               .statusCode(200)
+                                               .when()
+                                               .get("/")
+                                               .andReturn()
+                                               .body()
+                                               .asString();
+                JsonNode node = Json.parse(body);
+                Assert.assertTrue(node.isArray());
+                Assert.assertEquals(0,
+                                    node.size());
+            }
+        });
+    }
+
+
+    @Test
+    public void testGetAll_populatedDatabase()
+    {
+        running(testServer(PORT), new Runnable()
+        {
+            @Override
+            public void run()
+            {
                 RestAssured.given()
                            .contentType(ContentType.JSON)
                            .content("{\"name\":\"Westmalle\"}")
@@ -72,12 +96,14 @@ public class BeersTest
                            .when()
                            .post("/");
 
-                ResponseBody body = RestAssured.expect()
+                String body = RestAssured.expect()
                                                .statusCode(200)
                                                .when()
                                                .get("/")
-                                               .body();
-                JsonNode node = Json.parse(body.asString());
+                                               .andReturn()
+                                               .body()
+                                               .asString();
+                JsonNode node = Json.parse(body);
                 Assert.assertTrue(node.isArray());
                 Assert.assertEquals(2,
                                     node.size());
@@ -117,14 +143,63 @@ public class BeersTest
                            .when()
                            .post("/");
 
-                ResponseBody body = RestAssured.expect()
-                                               .statusCode(200)
-                                               .when()
-                                               .get("/Westmalle")
-                                               .body();
-                Beer beer = Json.fromJson(Json.parse(body.asString()), Beer.class);
+                Beer beer = RestAssured.expect()
+                                       .statusCode(200)
+                                       .when()
+                                       .get("/Westmalle")
+                                       .andReturn()
+                                       .body()
+                                       .as(Beer.class);
                 Assert.assertEquals("Westmalle",
                                     beer.name);
+            }
+        });
+    }
+
+    @Test
+    public void testUpdate()
+    {
+        running(testServer(PORT), new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Beer beer = RestAssured.given()
+                                       .contentType(ContentType.JSON)
+                                       .content("{\"name\":\"Westmale\"}")
+                                       .expect()
+                                       .statusCode(200)
+                                       .when()
+                                       .post("/")
+                                       .andReturn()
+                                       .body()
+                                       .as(Beer.class);
+
+                beer.name = "Westmalle";
+                RestAssured.given()
+                           .contentType(ContentType.JSON)
+                           .content(Json.toJson(beer).toString())
+                           .expect()
+                           .statusCode(200)
+                           .when()
+                           .put("/" + beer.id)
+                           .andReturn()
+                           .body()
+                           .asString();
+
+                String body = RestAssured.expect()
+                                         .statusCode(200)
+                                         .when()
+                                         .get("/")
+                                         .andReturn()
+                                         .body()
+                                         .asString();
+                JsonNode node = Json.parse(body);
+                Assert.assertTrue(node.isArray());
+                Assert.assertEquals(1,
+                                    node.size());
+                Assert.assertEquals("Westmalle",
+                                    node.get(0).get("name").asText());
             }
         });
     }
